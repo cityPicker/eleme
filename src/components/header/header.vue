@@ -27,19 +27,40 @@
       <span class="icon-keyboard_arrow_right"></span>
     </div>
     <div class="bg" :style="{'backgroundImage': 'url('+ seller.avatar +')'}"></div>
+    <transition name="detail-fade">
     <div class="detail" v-show="detailShow">
       <div class="detail-content">
-        <p class="name">{{seller.name}}</p>
-        <p>{{seller.bulletin}}</p>
+        <h1 class="name">{{seller.name}}</h1>
+        <star :size="48" :score="seller.score"></star>
+        <div class="line-title">
+          <div class="liner"></div>
+          <div class="text">优惠信息</div>
+          <div class="liner"></div>
+        </div>
+        <ul class="supports">
+          <li v-for="(support, $index) in seller.supports" :key="$index">
+            <span class="icon" :class="classMap[support.type]"></span>
+            <span class="description">{{support.description}}</span>
+          </li>
+        </ul>
+        <div class="line-title">
+          <div class="liner"></div>
+          <div class="text">商家公告</div>
+          <div class="liner"></div>
+        </div>
+        <p class="bulletin">{{seller.bulletin}}</p>
       </div>
       <div class="detail-close">
         <span class="icon-close" @click="hideDetail"></span>
       </div>
     </div>
+    </transition>
   </div>
 </template>
 
 <script>
+import star from '../star/star'
+
 export default {
   props: {
     seller: {
@@ -62,6 +83,9 @@ export default {
     hideDetail () {
       this.detailShow = false
     }
+  },
+  components: {
+    star
   }
 }
 </script>
@@ -196,6 +220,8 @@ export default {
     overflow-y: auto
     .detail-content
       min-height: 100%
+      width: 80%
+      margin: 0 auto
       margin-bottom: -64px
       &:after
         content: ''
@@ -205,8 +231,55 @@ export default {
         font-size: 16px
         line-height: 16px
         font-weight: 700
-        margin-top: 64px
+        padding-top: 64px
         text-align: center
+      .star
+        margin: 16px auto 28px
+        text-align: center
+      .line-title
+        display: flex
+        margin: 0 auto 24px
+        font-size: 0
+        .liner
+          flex: 1
+          position: relative
+          top: -7px
+          border-bottom: 1px solid rgba(255, 255, 255, 0.2)
+        .text
+          font-size: 14px
+          line-height: 14px
+          font-weight: 700
+          margin: 0 12px
+      .supports
+        padding: 0 12px 28px
+        li
+          font-size: 0
+          margin-bottom: 12px
+          .icon
+            display: inline-block
+            width: 16px
+            height: 16px
+            background-size: 16px 16px
+            vertical-align: middle
+            &.decrease
+              bg-image('images/decrease_1')
+            &.discount
+              bg-image('images/discount_1')
+            &.guarantee
+              bg-image('images/guarantee_1')
+            &.invoice
+              bg-image('images/invoice_1')
+            &.special
+              bg-image('images/special_1')
+          .description
+            font-size: 12px
+            line-height: 12px
+            margin-left: 6px
+            vertical-align: middle
+      .bulletin
+        padding: 0 12px
+        font-size: 12px
+        line-height: 24px
     .detail-close
       height: 64px
       text-align: center
@@ -214,5 +287,18 @@ export default {
         font-size: 32px
         width: 32px
         height: 32px
-        color: rgba(0, 0, 0, 0.5)
+        color: rgba(255, 255, 255, 0.5)
+/* 可以设置不同的进入和离开动画 */
+/* 设置持续时间和动画函数 */
+.detail-fade-enter-active
+  transition: all .3s ease;
+
+.detail-fade-leave-active
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+
+.detail-fade-enter, .detail-fade-leave-to
+  /* .slide-fade-leave-active for below version 2.1.8 */
+  /* transform: translateX(10px); */
+  opacity: 0;
+
 </style>
