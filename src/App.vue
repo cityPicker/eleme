@@ -57,7 +57,7 @@ export default {
   display: flex;
   display: -webkit-flex;
   text-align: center
-  border-1px(rgb(7, 17, 27, 0.1))
+  border-1px(rgba(7, 17, 27, 0.1))
   .tab-item
     flex: 1
     height: 40px;
