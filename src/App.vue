@@ -14,13 +14,11 @@
     </div>
 
     <router-view></router-view>
-    <shop-cart></shop-cart>
   </div>
 </template>
 
 <script>
 import Header from './components/header/header'
-import ShopCart from './components/shopcart/shopcart'
 
 const ERR_OK = 0
 export default {
@@ -31,8 +29,7 @@ export default {
     }
   },
   components: {
-    'v-header': Header,
-    'shop-cart': ShopCart
+    'v-header': Header
   },
   computed: {
     username () {

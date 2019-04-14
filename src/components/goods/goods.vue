@@ -32,14 +32,21 @@
                   <span v-if="foodItem.oldPrice" class="old-price">￥{{foodItem.oldPrice}}</span>
                 </p>
               </div>
+              <div class="cart-control">
+                <count-ctroller :food="foodItem"></count-ctroller>
+              </div>
             </li>
           </ul>
         </li>
       </ul>
     </div>
+    <shop-cart></shop-cart>
   </div>
 </template>
 <script>
+import ShopCart from '../shopcart/shopcart'
+import countCtroller from '../coutController/coutController'
+
 export default {
   data: function () {
     return {
@@ -55,6 +62,10 @@ export default {
       }
     })
     this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
+  },
+  components: {
+    'shop-cart': ShopCart,
+    'count-ctroller': countCtroller
   }
 }
 </script>
@@ -91,6 +102,7 @@ export default {
             -webkit-background-size: 12px 12px
             background-size: 12px 12px
             vertical-align: middle
+            margin-right: 2px
             &.decrease
               bg-image('images/decrease_3')
             &.discount
@@ -106,7 +118,6 @@ export default {
             line-height: 14px
             color: #07111b
             vertical-align: middle
-            margin-left: 2px
         &.active
           background: #fff
           font-weight: 700
@@ -128,6 +139,8 @@ export default {
         display: flex
         padding: 18px 0
         border-1px(rgba(7, 17, 27, 0.1))
+        &:last-child
+          border-none()
         .pic
           flex: 0 0 57px
           width: 57px
@@ -172,4 +185,9 @@ export default {
               font-weight: 700
               line-height: 24px
               margin-left: 8px
+              text-decoration: line-through
+        .cart-control
+          position: absolute
+          bottom: 12px
+          right: -6px
 </style>
