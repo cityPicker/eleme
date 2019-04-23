@@ -12,7 +12,7 @@
     </div>
     <div class="foods-wrapper">
       <ul>
-        <li v-for="(foods, $index) in goods" :key="$index">
+        <li class="foods-list-hock" v-for="(foods, $index) in goods" :key="$index">
           <h1 class="title">{{foods.name}}</h1>
           <ul class="food-list">
             <li class="food-item border-1px" v-for="(foodItem, $index) in foods.foods" :key="$index">
@@ -33,7 +33,7 @@
                 </p>
               </div>
               <div class="cart-control">
-                <count-ctroller :food="foodItem"></count-ctroller>
+                <count-ctrl :food="foodItem"></count-ctrl>
               </div>
             </li>
           </ul>
@@ -45,27 +45,47 @@
 </template>
 <script>
 import ShopCart from '../shopcart/shopcart'
-import countCtroller from '../coutController/coutController'
+import countController from '../coutController/coutController'
 
 export default {
   data: function () {
     return {
-      goods: {}
+      goods: {},
+      foodsListHeight: []
     }
   },
   created: function () {
+    // 商品数据
     this.$http.get('api/goods').then((response) => {
       response = response.body
       if (response.errno === 0) {
         this.goods = response.data
-        console.log(this.goods)
+        this.$nextTick(
+          // 计算右侧栏目高度
+          this._calculateHeight()
+        )
       }
     })
+    // 促销类型类名
     this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
   },
   components: {
     'shop-cart': ShopCart,
-    'count-ctroller': countCtroller
+    'count-ctrl': countController
+  },
+  methods: {
+    _calculateHeight () {
+      // 页面title高度数组
+      //  滚动时候判断滚动的高度对应左侧导航
+      //  优化：防抖动复用
+      let foodsList = document.getElementsByClassName('foods-list-hock')
+      foodsList = [...foodsList]
+      console.log(foodsList instanceof Array)
+      foodsList.forEach((item) => {
+        alert(item)
+      })
+      alert(1)
+    }
   }
 }
 </script>
